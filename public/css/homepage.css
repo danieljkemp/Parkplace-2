@@ -1,0 +1,83 @@
+.dark-overlay {
+  background-color: rgba(0,0,0,0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 700px;
+  color: white;
+}
+.home-inner {
+  padding-top: 150px;
+}
+.modal-lg {
+  max-width: 80% !important;
+}
+.modal-header-success {
+  color:#fff;
+  padding:9px 15px;
+  border-bottom:1px solid #eee;
+  background-color: #5cb85c;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+   border-top-left-radius: 5px;
+   border-top-right-radius: 5px;
+}
+#jumbotron {
+  background-image: url(https://images.unsplash.com/photo-1494351416886-f6b4ed2a1d68);
+  background-size: cover;
+  background-attachment: fixed;
+  text-align: center;
+  min-height: 700px;
+}
+#btnSpace {
+  margin-right: 10px;
+}
+
+#email {
+  width: 300px;
+}
+
+#appSummary {
+  margin-top: 70px;
+}
+.card-img-top {
+  width: 100%;
+}
+
+/*.card-columns {*/
+/*  @include media-breakpoint-only(lg) {*/
+/*    column-count: 4;*/
+/*}*/
+/*  @include media-breakpoint-only(xl) {*/
+/*    column-count: 5;*/
+/*  }*/
+/*}*/
+
+#howitworks {
+  margin-top: 70px;
+}
+#contact {
+  margin-top: 120px;
+}
+#footer {
+  background-color: #f7f7f7;
+  padding-bottom: 250px;
+  margin: 0;
+}
+#btnCenter {
+  text-align: center;
+}
+
+section {
+  padding-top:40px;
+  margin-top:-40px;
+}
+
+body {
+  position: relative;
+  padding-top:40px;
+  overflow-x: hidden; /* Prevent scroll on narrow devices */
+}

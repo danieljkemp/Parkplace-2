@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+      <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="/css/homepage.css">
+      <link rel="stylesheet" type="text/css" href="/css/viewspot.css">
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/components/list.min.css">
+   </head>
+   <body data-spy="scroll" data-target="#navbar" data-offset="150">
+      <nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top" id="navbar">
+         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+         </button>
+         <a class="navbar-brand" href="#">ParkPlace</a>
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+               <li class="nav-item active">
+                  <a class="nav-link" href="/main">Home <span class="sr-only">(current)</span></a>
+               </li>
+            </ul>
+            <% if(user==null){%>
+            <form class="form-inline my-2 my-lg-0" action="/login" method="POST">
+               <input class="form-control mr-sm-2" type="email" name="email" placeholder="Email">
+               <input class="form-control mr-sm-2" type="password" name="password" minlength="6" placeholder="Password">
+               <!-- <button type="button" class="btn btn-success my-2 my-sm-0" id="btnSpace">Login</button> -->
+               <button type="submit" class="btn btn-primary my-2 my-sm-0" id="btnSpace">Login</button>
+            </form>
+            <button type="button" class="btn btn-success my-2 my-sm-0" data-toggle="modal" data-target="#signup" data-whatever="@signup">Sign up</button>
+            <% }else{ %>
+            <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <%= user.firstname %>
+               </a>
+               <ul class="dropdown-menu">
+                  <li><a class="nav-link" href="#">Change Password</a></li>
+                  <li><a class="nav-link" href="#">My Profile</a></li>
+               </ul>
+            </li>
+            <a class="btn btn-success my-2 my-sm-0" id="btnSpace" href="/logout" role="button">Logout</a>
+            <% } %>
+         </div>
+      </nav>
+      <div class="container">
+         <div class="row">
+            <div class="col-md-4">
+               <div class="list-group">
+                  <a href="/main" class="list-group-item active">View spots</a>
+                  <a href="/parkingspot/new" class="list-group-item">Publish my spaces</a>
+                  <a href="/parkingspot/publisher/<%= user._id %>" class="list-group-item">View published spots</a>
+                  <a href="/parkingspot/booking/bookedspots" class="list-group-item">View booked spots</a>
+                  <div id="map"></div>
+               </div>
+            </div>
+            <div class="col-md-8 card">
+               <img class="card-img-top" src="/images/uploads/<%= parkingspot.image %>">
+               <div class="ui celled list">
+                  <div class="item">
+                     <div class="content">
+                        <div class="header">Owner</div>
+                        <%=parkingspot.lastname %>,<%= parkingspot.firstname %>
+                     </div>
+                  </div>
+                  <div class="item">
+                     <div class="content">
+                        <div class="header">Address</div>
+                        <%= parkingspot.address1.concat(parkingspot.address2) %>,<%= parkingspot.city %>,<%= parkingspot.state %>,<%= parkingspot.zip %>
+                     </div>
+                  </div>
+                  <div class="item">
+                     <div class="content">
+                        <div class="header">Phone</div>
+                        <%= parkingspot.phone %>
+                     </div>
+                  </div>
+                   <div class="item">
+                     <div class="content">
+                        <div class="header">Email</div>
+                        <%= parkingspot.email %>
+                     </div>
+                  </div>
+                   <div class="item">
+                     <div class="content">
+                        <div class="header">Number of spots</div>
+                        <%= parkingspot.numberOfSpots %>
+                     </div>
+                  </div>
+                   <div class="item">
+                     <div class="content">
+                        <div class="header">Price</div>
+                       <%= parkingspot.price %>
+                     </div>
+                  </div>
+                  <% if(parkingspot["booking"]["booked"]==false){ %>
+                     <a href="/parkingspot/payment/<%= parkingspot._id %>" class="btn btn-primary btn-lg active" role="button">Book spot</a>
+                  <% } %>
+               </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <script>
+         function initMap() {
+         var lat = <%= parkingspot.lat %>;
+         var lng = <%= parkingspot.lng %>;
+         var center = {lat: lat, lng: lng };
+         var map = new google.maps.Map(document.getElementById('map'), {
+         	zoom: 8,
+         	center: center,
+         	scrollwheel: false
+         });
+         var contentString = `
+           <strong<%= parkingspot.location %></strong>`
+         var infowindow = new google.maps.InfoWindow({
+           content: contentString
+         });
+         var marker = new google.maps.Marker({
+         	position: center,
+         	map: map
+         });
+         marker.addListener('click', function() {
+           infowindow.open(map, marker);
+         });
+         }
+      </script>
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCi06WMYxMv-5CiX4l4usV6eX5cN7Vr1Tw&callback=initMap"></script>

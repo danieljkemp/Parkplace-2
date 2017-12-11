@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+      <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" type="text/css" href="/css/mainpage.css">
+   </head>
+   <body data-spy="scroll" data-target="#navbar" data-offset="150">
+      <nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top" id="navbar">
+         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+         </button>
+         <a class="navbar-brand" href="#">ParkPlace</a>
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+               <li class="nav-item active">
+                  <a class="nav-link" href="/main">Home <span class="sr-only">(current)</span></a>
+               </li>
+            </ul>
+            <% if(user==null){%>
+            <form class="form-inline my-2 my-lg-0" action="/login" method="POST">
+               <input class="form-control mr-sm-2" type="email" name="email" placeholder="Email">
+               <input class="form-control mr-sm-2" type="password" name="password" minlength="6" placeholder="Password">
+               <!-- <button type="button" class="btn btn-success my-2 my-sm-0" id="btnSpace">Login</button> -->
+               <button type="submit" class="btn btn-primary my-2 my-sm-0" id="btnSpace">Login</button>
+            </form>
+            <button type="button" class="btn btn-success my-2 my-sm-0" data-toggle="modal" data-target="#signup" data-whatever="@signup">Sign up</button>
+            <% }else{ %>
+            <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <%= user.firstname %> 
+               </a>
+               <ul class="dropdown-menu">
+                  <li><a class="nav-link" href="#">Change Password</a></li>
+                  <li><a class="nav-link" href="#">My Profile</a></li>
+               </ul>
+            </li>
+            <a class="btn btn-success my-2 my-sm-0" id="btnSpace" href="/logout" role="button">Logout</a>
+            <% } %>
+         </div>
+      </nav>
+      <div class="container">
+         <div class="row">
+            <form action="/parkingspot/<%= parkingspot._id %>?_method=PUT" method="POST">
+               <div class="col-sm-12">
+                  <div class="form-group">
+                     <label for="example-tel-input" class="col-form-label">Address Line1</label>
+                     <input class="form-control" type="text" name="address1" value="<%= parkingspot.address1 %>" placeholder="Street address, P.O. box, company name, c/o" id="example-tel-input" required>
+                  </div>
+                  <div class="form-group">
+                     <label for="example-tel-input" class="col-form-label">Address Line2</label>
+                     <input class="form-control" type="text" name="address2" value="<%= parkingspot.address2 %>" placeholder="Apartment, suite , unit, building, floor, etc." id="example-tel-input">
+                  </div>
+                  <div class="row">
+                     <div class="form-group col-sm-4">
+                        <label for="example-text-input" class="col-form-label">City</label>
+                        <input class="form-control" type="text" name="city" value="<%= parkingspot.city %>" placeholder="Enter City Here.." id="example-text-input" required>
+                     </div>
+                     <div class="form-group col-sm-4"> 
+                        <label for="example-text-input" class="col-form-label">State</label>
+                        <input class="form-control" type="text" name="state" value="<%= parkingspot.state %>" placeholder="Enter State Here.." id="example-text-input" required>
+                     </div>
+                     <div class="form-group col-sm-4">
+                        <label for="example-text-input" class="col-form-label">Zip</label>
+                        <input class="form-control" type="text" name="zip" value="<%= parkingspot.zip %>" placeholder="Enter Zip Here.." id="example-text-input" required>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="example-tel-input" class="col-form-label">Telephone</label>
+                     <input class="form-control" type="tel" name="phone" value="<%= parkingspot.phone %>" placeholder="Enter Phone Number Here.." id="example-tel-input" required>
+                  </div>
+                  <div class="form-group">
+                     <label for="example-email-input" class="col-form-label">Email</label>
+                     <input class="form-control" type="email" name="enteredEmail" value="<%= parkingspot.email %>" placeholder="Enter Email Address Here.." id="example-email-input" required>
+                  </div>
+                  <div class="form-group">
+                     <h5>Enter exact date and time to show the availability of your parking spot</h5>
+                  </div>
+                  <div class="form-group row">
+                     <label for="example-date-input" class="col-2 col-form-label">Date</label>
+                     <div class="col-10">
+                        <input class="form-control" type="date" name="date" value="<%= parkingspot.date %>" id="example-date-input" required>
+                     </div>
+                  </div>
+                  <div class="form-group row">
+                     <label for="example-time-input" class="col-2 col-form-label">Time</label>
+                     <div class="col-10">
+                        <input class="form-control" type="time" name="time" id="example-time-input" required>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="exampleSelect1">Number of Parking Spots Available</label>
+                     <select class="form-control" name="numSpots" value="<%= parkingspot.numberOfSpots %>" id="exampleSelect1" required>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                     </select>
+                  </div>
+                  <div class="form-group row">
+                     <label for="example-time-input" class="col-2 col-form-label">Price</label>
+                     <div class="col-6">
+                        <div class="input-group">
+                           <span class="input-group-addon">$</span>
+                           <input type="number" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" name="price" value="<%= parkingspot.price %>" class="form-control" required/>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="exampleInputFile">Upload your parking space images</label>
+                     <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+                     <small id="fileHelp" class="form-text text-muted">This is your parking space picture.</small>
+                  </div>
+                  <div class="form-group">
+                     <label for="exampleInputFile">Upload your parking space layout</label>
+                     <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+                     <small id="fileHelp" class="form-text text-muted">This is a copy of your parking space layout.</small>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+               </div>
+            </form>
+            <div class="col-6 col-md-4 col-sm-3 hidden-lg-down sidebar-offcanvas" id="sidebar">
+               <div class="card">
+                  <div class="card-header">
+                     General Terms and Conditions of Use
+                  </div>
+                  <div class="card-block">
+                     <h4 class="card-title">How do I publish my parking spot?</h4>
+                     <p class="card-text">To post, we will require the user provide us with your name,
+                        address, date of birth, phone number, valid email address,
+                        and valid method of payment together with some basic security information.
+                     </p>
+                     <a href="#" class="btn btn-primary">Terms and Conditions</a>
+                  </div>
+               </div>
+            </div>
+            <!--/span-->
+         </div>
+      </div>
+      <!-- jQuery first, then Tether, then Bootstrap JS. -->
+      <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+   </body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+      <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" type="text/css" href="/css/homepage.css">
+   </head>
+   <body data-spy="scroll" data-target="#navbar" data-offset="150">
+      <nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top" id="navbar">
+         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+         </button>
+         <a class="navbar-brand" href="#">ParkPlace</a>
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+               <li class="nav-item active">
+                  <a class="nav-link" href="#jumbotron">Home <span class="sr-only">(current)</span></a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="#about">About</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="#how">How It Works</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="#footer">Contact</a>
+               </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0" action="/login" method="POST">
+               <input class="form-control" type="email" name="emailId" placeholder="Email" id="useremail" required>
+               <input class="form-control" type="password" name="userpassword" minlength="6" placeholder="Password" id="userpass" required>
+               <!-- <button type="button" class="btn btn-success my-2 my-sm-0" id="btnSpace">Login</button> -->
+               <button type="submit" class="btn btn-primary my-2 my-sm-0" id="btnSpace">Login</button>
+            </form>
+            <button type="button" class="btn btn-success my-2 my-sm-0" data-toggle="modal" data-target="#signup" data-whatever="@signup">Sign up</button>
+         </div>
+      </nav>
+      <div class="container">
+         <div class="col-lg-12">
+            <div class="row">
+               <div class="modal fade " id="signup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg" role="document">
+                     <div class="modal-content">
+                        <div class="modal-header modal-header-success">
+                           <h5 class="modal-title" id="exampleModalLabel">ParkPlace Registration Form</h5>
+                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                           <span aria-hidden="true">&times;</span>
+                           </button>
+                        </div>
+                        <div class="modal-body">
+                           <form action="/register" method="POST">
+                              <div class="col-sm-12">
+                                 <div class="row">
+                                    <div class="col-sm-6 form-group">
+                                       <label for="example-text-input" class="col-form-label">First name</label>
+                                       <input class="form-control" type="text" name="firstname" placeholder="Enter First Name Here.." id="example-text-input" required>
+                                    </div>
+                                    <div class="col-sm-6 form-group">
+                                       <label for="example-text-input" class="col-form-label">Last name</label>
+                                       <input class="form-control" type="text" name="lastname" placeholder="Enter Last Name Here.." id="example-text-input" required>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="example-date-input" class="col-form-label">BirthDate</label>
+                                    <input class="form-control" type="date" name="birthdate" value="yyyy-mm-dd" id="example-date-input" required>
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="exampleTextarea" class="col-form-label">Address</label>
+                                    <textarea class="form-control" placeholder="Enter Address Here.." name="address" id="exampleTextarea" rows="3" required></textarea>
+                                 </div>
+                                 <div class="row">
+                                    <div class="form-group col-sm-4">
+                                       <label for="example-text-input" class="col-form-label">City</label>
+                                       <input class="form-control" type="text" name="city" placeholder="Enter City Here.." id="example-text-input" required>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                       <label for="example-text-input" class="col-form-label">State</label>
+                                       <input class="form-control" type="text" name="state" placeholder="Enter State Here.." id="example-text-input" required>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                       <label for="example-text-input" class="col-form-label">Zip</label>
+                                       <input class="form-control" type="text" name="zip" placeholder="Enter Zip Here.." id="example-text-input" required>
+                                    </div>
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="example-tel-input" class="col-form-label">Telephone</label>
+                                    <input class="form-control" type="tel" name="phone" placeholder="Enter Phone Number Here.." id="example-tel-input" required>
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="example-email-input" class="col-form-label">Email</label>
+                                    <input class="form-control" type="email" name="email" placeholder="Enter Email Address Here.." id="example-email-input" required>
+                                 </div>
+                                 <div class="form-group">
+                                    <label for="example-password-input" class="col-form-label">Password</label>
+                                    <input class="form-control" type="password" name="password" minlength="6" id="example-password-input" required>
+                                 </div>
+                                 <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <!-- <button type="button" class="btn btn-primary">Submit</button> -->
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                 </div>
+                              </div>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <section id="jumbotron">
+         <div class="dark-overlay">
+            <div class="home-inner">
+               <div class="card-block" id="smooth">
+                  <h1 class="display-3">ParkPlace</h1>
+                  <p class="lead">This is why You should use this fantastic app!</p>
+                  <hr class="my-4 justify-content-center">
+                  <p>Want to know more? Join our mailing list!</p>
+                  <form class="form-inline justify-content-center">
+                     <div class="form-group">
+                        <label class="sr-only" for"email">Email address</label>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                           <div class="input-group-addon">@</div>
+                           <input type="email" class="form-control" id="email" placeholder="Your email">
+                        </div>
+                     </div>
+                     <button type="submit" class="btn btn-primary">Sign up</button>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </section>
+      <section id="about">
+         <div class="container">
+            <div class="row">
+               <div class="w-100">
+                  <h1 class="text-center" id="appSummary">Why This App Is Awesome</h1>
+                  <br>
+               </div>
+            </div>
+            <div class="card-deck">
+               <div class="card">
+                  <img class="card-img-top" src="https://source.unsplash.com/FbUYG4gloP8" alt="Card image cap">
+                  <div class="card-block">
+                     <h4 class="card-title"><i class="fa fa-user" aria-hidden="true"></i> Linus Torvalds</h4>
+                     <h6 class="card-title"><i class="fa fa-map-marker" aria-hidden="true"></i> 519 South Beech Street, Syracuse, NY 13210</h6>
+                     <p class="card-text">2 parking spots available, $3/hr</p>
+                     <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                  </div>
+               </div>
+               <div class="card">
+                  <img class="card-img-top" src="https://source.unsplash.com/2b1mlLdNmMc" alt="Card image cap">
+                  <div class="card-block">
+                     <h4 class="card-title"><i class="fa fa-car" aria-hidden="true"></i> Mark Zuckerberg</h4>
+                     <h6 class="card-title"><i class="fa fa-map-marker" aria-hidden="true"></i> 519 Clarendon Street, Syracuse, NY 13210</h6>
+                     <p class="card-text">3 parking spots available, $6/hr</p>
+                     <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                  </div>
+               </div>
+               <div class="card">
+                  <img class="card-img-top" src="https://source.unsplash.com/xbBLtLYUTxM" alt="Card image cap">
+                  <div class="card-block">
+                     <h4 class="card-title"><i class="fa fa-car" aria-hidden="true"></i> Drew Houston</h4>
+                     <h6 class="card-title"><i class="fa fa-map-marker" aria-hidden="true"></i> 502 University Ave, Syracuse, NY 13210</h6>
+                     <p class="card-text">1 parking spot available, $5/hr</p>
+                     <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <section id="how">
+         <div class="container">
+            <div class="row">
+               <div class="w-100" id="howitworks">
+                  <h2 class="text-center">How It Works</h2>
+                  <p class="text-justify">Parking is inefficient all around given that in urban areas where parking demand is high
+                     but available options are scarce. Typically, drivers struggle to find
+                     a parking spot and spend an average of nearly 20 minutes in pursuit of a coveted spot. There's usually 7 a.m. street cleaning
+                     and there are hours when you cannot park your car at a given place.
+                     Sometimes, they have to wait few minutes before someone leaves so they can park. In a similar manner, they see an empty spot, but other drivers come and park before them. However, in this day and age of digitization, a new online parking marketplace, is a new killer app idea of how things are coming to change because everyone who has ever driven a car will agree that finding a parking spot can be challenging at most times. It would be so much easier if the drivers could reserve a parking spot, or even “rent” one for as long as they need.
+                  </p>
+                  <p class="text-justify">In Syracuse, driving to work or school can sometimes be a hassle because faculty
+                     and students usually arrive on four wheels. They occasionally worry about alternate side parking,
+                     meters, parking tickets and all other parking regulations.
+                     As we can see, they have trouble finding a parking space and waste a lot of time on doing so.
+                     In fact, cars are on the road for about only 5-10% of the time and take up valuable space when not in use.
+                     Therefore, we came up with the idea of an online marketplace for shared parking application
+                     that is an Airbnb-like service for a parking. We could see this working on a college campus.
+                  </p>
+                  <p class="text-justify">For example, garage owners with some extra space in their driveways can make a few bucks
+                     because the driveways often sit idle when they are at work or out of town. The parking spot providers can post their available spot for rent. As a result, the drivers no longer need to worry about parking tickets as well as losing their prized spots to another driver.  This online parking application can assist them to find and compare spots, get contact details of parking spot owner and send notifications to them when they are near the address. The parking space providers must let the drivers know of any restrictions, for example they cannot block the driveway or other paths.
+                  </p>
+                  <p class="text-justify">The application will show the drivers where the closest or safest places
+                     (such as proximity campus safety lights) are to their destination to park.
+                     The drivers can reserve a spot in advance with their credit cards and obtain discounts
+                     for early reservations or setup recurring reservations.
+                  </p>
+                  <p class="text-justify">All users of the app must provide contact information in the form of a username,
+                     password, valid email address, and payment information.
+                     The payment information will be in the form of a PayPal Account.
+                     Additionally, drivers must provide a description of their car
+                     (make/model/color/license plate) and parking spot providers must provide
+                     a description of their parking spot (price, location, size,photo, and restrictions).
+                  </p>
+                  <p class="text-justify">There are plenty of parking apps out there that
+                     help you find and book a parking spot, but why an online marketplace for shared parking application
+                     is significantly different (and totally amazing) is
+                     that people could yield profit by this app.
+                     The app will help connect owners of private parking spots
+                     to drivers looking for parking, and help drivers to pay parking fee to the owners.
+                  </p>
+                  <p class="text-justify">Additionally, it makes life easier, our cities more accessible,
+                     and people in Syracuse more connected thereby developing convenient and effective ways to find
+                     , reserve and easily pay for parking. The drivers only need to book a parking space near their
+                     destinations before leaving home. So they do not struggle to find and waste time on looking
+                     for a parking spot anymore, and it prevents them from building up parking ticket fees.
+                  </p>
+                  <p class="text-justify">Lastly, it enables drivers to save time on the road and reduce the nation's carbon footprint
+                     because typically the drivers spend an average of nearly 20 minutes in finding a parking spot
+                     as well as losing a parking spaces to other drivers.
+                  </p>
+               </div>
+            </div>
+         </div>
+      </section>
+      <section id="footer">
+         <div class="container">
+            <div class="row">
+               <div class="col-sm-12" id="contact">
+                  <h2 class="text-center">Contact us</h2>
+                  <br>
+                  <form class="justify-content-center offset-sm-2">
+                     <div class="form-group row">
+                        <label for="formGroupExampleInput" class="col-sm-2 col-form-label">Your name</label>
+                        <div class="col-sm-6">
+                           <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Your name">
+                        </div>
+                     </div>
+                     <div class="form-group row">
+                        <label for="example-email-input" class="col-2 col-form-label">Email</label>
+                        <div class="col-sm-6">
+                           <input class="form-control" type="email" placeholder="Your Email" id="example-email-input">
+                        </div>
+                     </div>
+                     <div class="form-group row">
+                        <label for="example-tel-input" class="col-2 col-form-label">Phone number</label>
+                        <div class="col-sm-6">
+                           <input class="form-control" type="tel" placeholder="Your phone number" id="example-tel-input">
+                        </div>
+                     </div>
+                     <div class="form-group row">
+                        <label for="exampleTextarea" class="col-2 col-form-label">Message</label>
+                        <div class="col-sm-6">
+                           <textarea class="form-control col-form-label" id="exampleTextarea" rows="5"></textarea>
+                        </div>
+                     </div>
+                  </form>
+                  <div class="text-center">
+                     <button type="button" class="text-center btn btn-success submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send Message</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <!-- jQuery first, then Tether, then Bootstrap JS. -->
+      <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+      <script>
+         window.sr = ScrollReveal();
+         sr.reveal('#navbar', {
+           duration: 2000,
+           origin: 'bottom'
+         });
+         sr.reveal('#smooth', {
+           duration: 2000,
+           origin: 'left',
+           distance: '300px',
+           viewFactor: 0.2
+         });
+         sr.reveal('#about', {
+           duration: 2000,
+           origin: 'right',
+           distance: '300px',
+           viewFactor: 0.2
+         });
+         sr.reveal('.card', {
+           duration: 2000,
+           origin: 'bottom',
+           distance: '300px',
+           viewFactor: 0.2
+         });
+         sr.reveal('#how', {
+           duration: 2000,
+           origin: 'right',
+           distance: '300px',
+           viewFactor: 0.2
+         });
+         sr.reveal('#contact', {
+           duration: 2000,
+           origin: 'top',
+           distance: '300px',
+           viewFactor: 0.2
+         });
+         
+      </script>
+   </body>
+</html>
