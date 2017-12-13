@@ -6,25 +6,13 @@ var geocoder = require("geocoder");
 var middleware=require("../middleware/index");
 var router = express.Router();
 var multer = require('multer');
-//var upload = multer({dest:'/home/ubuntu/workspace/routes/uploads'});
 
-
-// DON"T MESS WITH THIS CODE
-// var storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, '/home/ubuntu/workspace/public/images/uploads');
-//   },
-//     filename: function (req, file, cb) {
-//     cb(null, Date.now()+ file.originalname);
-//     }
-
-// });
-
-// var upload = multer({ storage: storage });
-
-//
-
-
+/*
+Initialize multer configuration object for image uploading and fetching.
+The storage object provides control over storage path, and also to
+modify file names and add extensions.By default, multer does not retain file
+extensions.
+*/
 var storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, '/home/ubuntu/workspace/public/images/uploads');
@@ -39,7 +27,7 @@ var upload = multer({ storage: storage });
 
 
 
-//Publish new parking spot
+//Renders the publish page for publishing parking spots
 router.get("/parkingspot/new",middleware.isAuthenticated, function(req, res) {
     var userEmail = req.user.email
     user.find({ "email": userEmail }, function(err, foundUser) {
@@ -53,7 +41,7 @@ router.get("/parkingspot/new",middleware.isAuthenticated, function(req, res) {
 
 });
 
-//SHow booked parking spots
+//Displays the list of all parking spots booked by a user
 router.get("/parkingspot/booking/bookedspots", middleware.isAuthenticated,function(req, res) {
     var userEmail = req.user.email;
     user.find({ "email": userEmail }, function(err, foundUser) {
@@ -104,6 +92,10 @@ router.post("/parkingspot", middleware.isAuthenticated, upload.single('photo'), 
                 id: foundUser[0]._id,
                 name: foundUser[0].firstname
             }
+            /*
+            Geocoder object maps street addresses to corresponding 
+            lattitude and longitude pairs
+            */
             geocoder.geocode(fulladdress, function(err, data) {
                 if (err) {
                     console.log(err);
@@ -112,6 +104,7 @@ router.post("/parkingspot", middleware.isAuthenticated, upload.single('photo'), 
                     var lat = data.results[0].geometry.location.lat;
                     var lng = data.results[0].geometry.location.lng;
                     var location = data.results[0].formatted_address;
+                    //Cretae new parking spot object
                     var newParkingSpot = {
                         author: author,
                         firstname: foundUser[0].firstname,
@@ -133,7 +126,6 @@ router.post("/parkingspot", middleware.isAuthenticated, upload.single('photo'), 
                         lng: lng,
                         numberOfSpots: numSpots,
                         price: price,
-                        // image:{data: fs.readFileSync("./uploads/"+imageName), contentType: 'image/png'}
                         image: imageName
                     };
                     // Create a new campground and save to DB
@@ -175,7 +167,8 @@ router.get("/parkingspot/publisher/:id", middleware.isAuthenticated, function(re
 });
 
 
-//Show specific parking spot
+//Show specific parking spot.
+//This route is invoked when a user wants to view a specific parking spot
 router.get("/parkingspot/:id",middleware.isAuthenticated, function(req, res) {
     var id = req.params.id;
     var userEmail = req.user.email;
@@ -197,7 +190,10 @@ router.get("/parkingspot/:id",middleware.isAuthenticated, function(req, res) {
 });
 
 
-//Edit ParkingSpot route
+/*
+This route is invoked when a user wants to edit a parking spot.
+The user can only edit parking spots owned by him/her.
+*/
 router.get("/parkingspot/:id/edit", middleware.isAuthenticated,function(req, res) {
     var userEmail = req.user.email;
     user.find({ "email": userEmail }, function(err, foundUser) {
@@ -230,6 +226,7 @@ router.put("/parkingspot/:id", middleware.isAuthenticated, function(req, res) {
             var lat = data.results[0].geometry.location.lat;
             var lng = data.results[0].geometry.location.lng;
             var location = data.results[0].formatted_address;
+            //Create new parking spot object based on new form entries submitted by user
             var newData = {
                 address1: req.body.address1,
                 address2: req.body.address2,
@@ -264,6 +261,7 @@ router.put("/parkingspot/:id", middleware.isAuthenticated, function(req, res) {
 
 
 //Delete Parking Spot
+//The parking spot can only be deleted by its owner
 router.delete("/parkingspot/:id",middleware.isAuthenticated, function(req, res) {
     var id = req.params.id;
     var userEmail = req.user.email;
@@ -294,7 +292,10 @@ router.post("/parkingspot/search", middleware.isAuthenticated, function(req, res
             console.log(err);
         }
         else {
-
+            /*
+            Geocoder object maps street addresses to corresponding 
+            lattitude and longitude pairs
+            */
             geocoder.geocode(address, function(err, data) {
                 if (err) {
                     console.log(err);
@@ -302,6 +303,7 @@ router.post("/parkingspot/search", middleware.isAuthenticated, function(req, res
                 else {
                     var lat = data.results[0].geometry.location.lat;
                     var lng = data.results[0].geometry.location.lng;
+                    //Geo-spatial operators are used to fetch parking spots within 3KM radius
                     parkingspot.find({
                         loc: {
                             $near: {

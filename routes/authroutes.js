@@ -9,6 +9,7 @@ router.get("/register", function(req, res) {
     res.render("register");
 });
 
+//Registration route
 router.post("/register", function(req, res) {
     var firstname = req.body.firstname;
     var lastname = req.body.lastname;
@@ -20,9 +21,14 @@ router.post("/register", function(req, res) {
     var email = req.body.email;
     var password = req.body.password;
     var userObj = { firstname: firstname, lastname: lastname, birthdate: birthdate, address: address, city: city, state: state, zip: zip, email: email };
+    //Persist user login information to firebase
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE).then(function() {
         firebase.auth().createUserWithEmailAndPassword(email, password).then(function() {
             console.log("You have succesfully registered for parkplace");
+            /*
+            User information is saved to the mongo db user collection
+            to map parking spots to specific users who own the spots
+            */
             user.create(userObj, function(err, newlyCreatedUser) {
                 if (err) {
                     console.log(err);
@@ -47,7 +53,6 @@ router.post("/register", function(req, res) {
                 }
             });
         }).catch(function(error) {
-            // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
             console.log(errorCode);
@@ -55,17 +60,18 @@ router.post("/register", function(req, res) {
             // ...
         });
     }).catch(function() {
-
         console.log("Session closed");
     });
 
 });
 
+//Login route
 router.post("/login", function(req, res) {
     var email = req.body.emailId;
     var password = req.body.userpassword;
+    //Credentials are verified using firebase's authentication API
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE).then(function() {
-
+        
         firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
             user.find({ "email": email }, function(err, foundUser) {
                 if (err) {
@@ -77,6 +83,7 @@ router.post("/login", function(req, res) {
                             console.log(err);
                         }
                         else {
+                            //User mainpage is rendered if login is succesful
                             res.render("mainpage", { user: foundUser[0], parkingspots: foundspots });
                         }
                     });
@@ -94,7 +101,7 @@ router.post("/login", function(req, res) {
     });
 });
 
-
+//Logout route.Session is terminated once the user logs out.
 router.get("/logout", function(req, res) {
     firebase.auth().signOut().then(function() {
         console.log("User succesfully signed out");

@@ -8,6 +8,11 @@ var config=require("../configuration/config");
 var user = require("../models/user");
 var router = express.Router();
 
+/*
+Paypal configuration object.
+The client id and secret values are registered to the merchant account.
+Payments made for parking spots are transferred to the merchant account.
+*/
 paypal.configure({
     'mode': config.paypal.mode, //sandbox or live
     'client_id':config.paypal.clientId, 
@@ -15,6 +20,7 @@ paypal.configure({
 });
 
 
+//Payment initiation route.
 router.get('/parkingspot/payment/:id', middleware.isAuthenticated, (req, res) => {
     var id = req.params.id;
     parkingspot.findById(id, function(err, foundSpot) {
@@ -22,9 +28,12 @@ router.get('/parkingspot/payment/:id', middleware.isAuthenticated, (req, res) =>
             console.log(err);
         }
         else {
+            //User is redirected to the return url once payment is done
             var return_url = "https://parkplace-rvijayde.c9users.io/parkingspot/payment/success/".concat(foundSpot._id);
+            //User is redirected to the payment cancellation route, if payment is cancelled
             var cancel_url = "https://parkplace-rvijayde.c9users.io/parkingspot/payment/cancel";
             var price = foundSpot["price"].toString();
+            //Payment object for representing the transaction
             var create_payment_json = {
                 "intent": "sale",
                 "payer": {
@@ -52,14 +61,14 @@ router.get('/parkingspot/payment/:id', middleware.isAuthenticated, (req, res) =>
                 }]
             };
 
-
+            //Initiate payment.The payment object is sent to paypal's transaction recorder
             paypal.payment.create(create_payment_json, function(error, payment) {
                 if (error) {
                     console.log("ERROR::");
                     console.log(error);
                 }
                 else {
-
+                    //The user is takent to the payment page only after validating the payment object 
                     for (let i = 0; i < payment.links.length; i++) {
                         if (payment.links[i].rel === 'approval_url') {
                             res.redirect(payment.links[i].href);
@@ -73,6 +82,11 @@ router.get('/parkingspot/payment/:id', middleware.isAuthenticated, (req, res) =>
 
 });
 
+/*
+Payment success route.
+Request object contains payment information such as payer id and payment id 
+for uniquely identifying the transaction
+*/
 router.get('/parkingspot/payment/success/:id', (req, res) => {
     const spotId = req.params.id;
     const payerId = req.query.PayerID;
@@ -99,8 +113,11 @@ router.get('/parkingspot/payment/success/:id', (req, res) => {
                     throw error;
                 }
                 else {
-                    // console.log("Get Payment Response");
-                    //console.log(JSON.stringify(payment));
+                    /*
+                    Update parking spot information to reflect booking status
+                    This is to make sure that the spot doesnt appear either in the search list or suggestion
+                    list until the claim is released
+                    */
                     var booking = { "booking": { "bookingmail": userEmail, "booked": true } };
                     parkingspot.findByIdAndUpdate(foundSpot._id, {
                         $set: booking
@@ -115,6 +132,7 @@ router.get('/parkingspot/payment/success/:id', (req, res) => {
                                 }
                                 else {
                                     var mailAddress = foundSpot.address1 + foundSpot.address2 + foundSpot.city + foundSpot.state + foundSpot.zip;
+                                    //Nodemailer transport object is configured with merchant account email address and password
                                     let transporter = nodemailer.createTransport({
                                         service: "Gmail",
                                         auth: {
@@ -123,8 +141,8 @@ router.get('/parkingspot/payment/success/:id', (req, res) => {
                                         }
                                     });
 
-                                    // setup email data with unicode symbols
-                                    //create dummy gmail account
+                                    //setup email data with unicode symbols
+                                    //Mail object for driver
                                     var mailToDriver = {
                                         from: 'rahul.lionelmessi@gmail.com', // sender address
                                         to: userEmail, // list of receivers
@@ -138,7 +156,8 @@ router.get('/parkingspot/payment/success/:id', (req, res) => {
                                   <p>Contact Name:` + foundSpot.author.name + `</p>
                                  <p>Contact Name:` + foundSpot.author.email + `</p>` // html body
                                     };
-
+                                    
+                                    //Mail object for owner
                                     var mailToOwner = {
                                         from: 'rahul.lionelmessi@gmail.com', // sender address
                                         to: userEmail, // list of receivers
@@ -173,7 +192,6 @@ router.get('/parkingspot/payment/success/:id', (req, res) => {
                                         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
                                     });
                                     res.redirect("/main");
-                                    //res.redirect('/parkingspot/booking/bookedspots');
                                 }
                             });
                         }
@@ -184,6 +202,7 @@ router.get('/parkingspot/payment/success/:id', (req, res) => {
     });
 });
 
+//Payment cancellation route
 router.get('/parkingspot/payment/cancel', (req, res) => res.send('Cancelled'));
 
 module.exports = router;
