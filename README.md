@@ -1,22 +1,18 @@
-
-     ,-----.,--.                  ,--. ,---.   ,--.,------.  ,------.
-    '  .--./|  | ,---. ,--.,--. ,-|  || o   \  |  ||  .-.  \ |  .---'
-    |  |    |  || .-. ||  ||  |' .-. |`..'  |  |  ||  |  \  :|  `--, 
-    '  '--'\|  |' '-' ''  ''  '\ `-' | .'  /   |  ||  '--'  /|  `---.
-     `-----'`--' `---'  `----'  `---'  `--'    `--'`-------' `------'
-    ----------------------------------------------------------------- 
-
-
-Welcome to your Node.js project on Cloud9 IDE!
-
-This chat example showcases how to use `socket.io` with a static `express` server.
+```
+  ____            _      ____  _                
+ |  _ \ __ _ _ __| | __ |  _ \| | __ _  ___ ___ 
+ | |_) / _` | '__| |/ / | |_) | |/ _` |/ __/ _ \
+ |  __/ (_| | |  |   <  |  __/| | (_| | (_|  __/
+ |_|   \__,_|_|  |_|\_\ |_|   |_|\__,_|\___\___|
+```                                                
+----------------------------------------------------------------- 
 
 ## Running the server
 
-1) Open `server.js` and start the app by clicking on the "Run" button in the top menu.
+1) Install required packages: `node.js` and `mongodb`. Ensure that mongodb is running.
 
-2) Alternatively you can launch the app from the Terminal:
+2) To install the required node.js packages, navigate to the the application directory and run `node install`
 
-    $ node server.js
+3) Run the application service from the terminal with the command:  `$ node app.js`
 
-Once the server is running, open the project in the shape of 'https://projectname-username.c9users.io/'. As you enter your name, watch the Users list (on the left) update. Once you press Enter or Send, the message is shared with all connected clients.
+Once the server is running, view the application at: 'http://localhost/'. 
