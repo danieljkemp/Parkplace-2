@@ -11,7 +11,7 @@
 
 1) Install required packages: `node.js` and `mongodb`. Ensure that mongodb is running.
 
-2) To install the required node.js packages, navigate to the the application directory and run `node install`
+2) To install the required node.js packages, navigate to the the application directory and run `npm install`
 
 3) Run the application service from the terminal with the command:  `$ node app.js`
 
